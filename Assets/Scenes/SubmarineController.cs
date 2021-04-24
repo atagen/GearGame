@@ -24,7 +24,7 @@ public class SubmarineController : MonoBehaviour
         var vmove = Input.GetAxis("Vertical");
         vmove *= (vmove >= 0.0f) ? v_move_speeds.x : v_move_speeds.y;
         _velocity += new Vector2(hmove, vmove);
-        _rigidbody.AddForce(new Vector2(_velocity.x, _velocity.y) * Time.deltaTime, ForceMode2D.Impulse );
+        _rigidbody.AddForce(new Vector2(_velocity.x, _velocity.y) * Time.deltaTime, ForceMode.Acceleration );
         _velocity *= new Vector2(friction,friction);
     }
 }
