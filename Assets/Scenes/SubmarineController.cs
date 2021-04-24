@@ -13,7 +13,8 @@ public class SubmarineController : MonoBehaviour
 {
     public Vector2 move_speed;
     public float max_speed;
-    
+
+    private SpriteRenderer _spriteRend;
     private Rigidbody2D _rigidbody;
     private float time = 0.0f;
 
@@ -21,6 +22,7 @@ public class SubmarineController : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRend = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -38,20 +40,14 @@ public class SubmarineController : MonoBehaviour
         {
             _rigidbody.velocity = _rigidbody.velocity.normalized * max_speed;
         }
-
-        //todo: change this to work only for the texture and not flip the arm
-/*
-    
+            
         if (hmove < 0.0f)
         {
-            Quaternion rot = Quaternion.Euler(0.0f,180.0f,90.0f);
-            transform.SetPositionAndRotation(transform.position, rot);
+            _spriteRend.flipX = true;
         }
         else if (hmove > 0.0f)
         {
-            Quaternion rot = Quaternion.Euler(0.0f,0.0f,90.0f);
-            transform.SetPositionAndRotation(transform.position, rot);
+            _spriteRend.flipX = false;
         }
-*/
     }
 }
