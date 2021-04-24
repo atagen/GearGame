@@ -31,7 +31,9 @@ public class SubmarineController : MonoBehaviour
         {
             _rigidbody.velocity = _rigidbody.velocity.normalized * max_speed;
         }
-
+        //todo: change this to work only for the texture and not flip the arm
+/*
+    
         if (hmove < 0.0f)
         {
             Quaternion rot = Quaternion.Euler(0.0f,180.0f,90.0f);
@@ -42,6 +44,6 @@ public class SubmarineController : MonoBehaviour
             Quaternion rot = Quaternion.Euler(0.0f,0.0f,90.0f);
             transform.SetPositionAndRotation(transform.position, rot);
         }
-
+*/
     }
 }
