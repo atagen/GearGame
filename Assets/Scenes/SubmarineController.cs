@@ -1,4 +1,5 @@
 
+using System;
 using System.Numerics;
 using System.Transactions;
 using System.Threading;
@@ -10,9 +11,12 @@ using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
 public class SubmarineController : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody;
     public Vector2 move_speed;
     public float max_speed;
+    
+    private Rigidbody2D _rigidbody;
+    private float time = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,13 +28,17 @@ public class SubmarineController : MonoBehaviour
     {
         var hmove = Input.GetAxis("Horizontal");
         var vmove = Input.GetAxis("Vertical");
-        _rigidbody.AddForce(new Vector2(hmove, vmove) * move_speed, ForceMode2D.Force );
-        
+
+        time += Time.deltaTime;
+
+        _rigidbody.AddForce(new Vector2(hmove, vmove + Mathf.Sin(time * Mathf.PI) * 0.1f) * move_speed, ForceMode2D.Force );        
+
         // limit speed
         if (_rigidbody.velocity.magnitude > max_speed)
         {
             _rigidbody.velocity = _rigidbody.velocity.normalized * max_speed;
         }
+
         //todo: change this to work only for the texture and not flip the arm
 /*
     
