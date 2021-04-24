@@ -7,7 +7,7 @@ using UnityEngine;
 public class SubmarineController : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
-
+    public Vector2 move_speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +20,6 @@ public class SubmarineController : MonoBehaviour
         var hmove = Input.GetAxis("Horizontal");
         var vmove = Input.GetAxis("Vertical");
 
-        _rigidbody.AddForce(new Vector2(hmove, vmove), ForceMode2D.Force );
+        _rigidbody.AddForce(new Vector2(hmove, vmove) * move_speed, ForceMode2D.Force );
     }
 }
