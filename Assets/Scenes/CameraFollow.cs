@@ -1,8 +1,5 @@
-//using System.Threading.Tasks.Dataflow;
 using System.Transactions;
-//using System.Numerics;
 using System;
-//using System.Threading.Tasks.Dataflow;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,13 +7,15 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
   public Transform target;
-  public float smoothSpeed = 5.0f;
+  public float smoothSpeed = 0.5f;
+  private Vector3 velocity = Vector3.zero;
 
-  void LateUpdate()
+  void FixedUpdate()
   {
-    transform.position = Vector3.Lerp(transform.position,
-        target.position, smoothSpeed * Time.deltaTime);
-    transform.position = new Vector3(transform.position.x, transform.position.y, -20.0f);
+    var newpos = new Vector3(target.position.x,
+        target.position.y, -20.0f);
+    
+    transform.position = Vector3.SmoothDamp(transform.position, newpos, ref velocity, smoothSpeed);
   }
 
 }

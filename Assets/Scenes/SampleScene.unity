@@ -482,8 +482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 014a81c817a548b4a8262567e705564a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  v_move_speeds: {x: 0.5, y: 0.2}
-  friction: 0.2
 --- !u!50 &858309713
 Rigidbody2D:
   serializedVersion: 4
@@ -497,7 +495,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.8
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -767,4 +765,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 858309709}
-  smoothSpeed: 0.15
+  smoothSpeed: 0.25
