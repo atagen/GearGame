@@ -13,6 +13,7 @@ public class SubmarineController : MonoBehaviour
 {
     public Vector2 move_speed;
     public float max_speed;
+    public float bob_amount;
 
     private SpriteRenderer _spriteRend;
     private Rigidbody2D _rigidbody;
@@ -33,7 +34,7 @@ public class SubmarineController : MonoBehaviour
 
         time += Time.deltaTime;
 
-        _rigidbody.AddForce(new Vector2(hmove, vmove + Mathf.Sin(time * Mathf.PI) * 0.1f) * move_speed, ForceMode2D.Force );        
+        _rigidbody.AddForce(new Vector2(hmove, vmove + Mathf.Sin(time * Mathf.PI) * bob_amount) * move_speed, ForceMode2D.Force );        
 
         // limit speed
         if (_rigidbody.velocity.magnitude > max_speed)
