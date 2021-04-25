@@ -14,16 +14,20 @@ enum ClawState
 }
 public class ClawInteractions : MonoBehaviour
 {
-    private ClawState _clawstate;
-    private Collider2D _hitbox;
-    private SpriteRenderer _spriteRenderer;
     public Sprite _clawSpriteClosed;
     public Sprite _clawSpriteOpen;
     public Sprite _drillSpriteA;
     public Sprite _drillSpriteB;
     public PlayerItems inventory;
+    public double particle_freq;
+
+
+    private ClawState _clawstate;
+    private Collider2D _hitbox;
+    private SpriteRenderer _spriteRenderer;
 
     private double _drillTimeout = 0.0;
+    private double _particleTimeout = 0.0;
     
     private double _drillAnimationTimer = 0.0;
     private int _drillAnimationSpriteIdx = 1;
@@ -42,6 +46,7 @@ public class ClawInteractions : MonoBehaviour
     void Update()
     {
         _drillTimeout += Time.deltaTime;
+        _particleTimeout += Time.deltaTime;
         if (_clawstate == ClawState.Spinning)
         {
             _drillAnimationTimer += Time.deltaTime;
@@ -63,7 +68,7 @@ public class ClawInteractions : MonoBehaviour
         {
             _drillAnimationTimer = 0.0f;
             _clawstate = ClawState.Spinning;
-            Debug.Log("lmb, " + _clawstate);
+            //Debug.Log("lmb, " + _clawstate);
         } else if (_clawstate == ClawState.Spinning & Input.GetMouseButtonDown(1))
         {
             _clawstate = ClawState.Firing;
@@ -72,7 +77,7 @@ public class ClawInteractions : MonoBehaviour
         {
             _spriteRenderer.sprite = _clawSpriteClosed;
             _clawstate = ClawState.Idle;
-            Debug.Log("released claw, " + _clawstate);
+            //Debug.Log("released claw, " + _clawstate);
         }
     }
 
@@ -84,14 +89,20 @@ public class ClawInteractions : MonoBehaviour
 
             // break walls
             Tilemap map = other.GetComponentInParent<Tilemap>();
-            if (map != null && _drillTimeout > 1.0)
+            if (map != null)
             {
-                _drillTimeout = 0.0;
-                Vector3Int tilePos = map.WorldToCell(_hitbox.bounds.center);
-                if (map.GetTile(tilePos) != null)
+                if (_drillTimeout > 1.0)
                 {
-                    map.GetComponentInParent<DestroyTile>().KillTile(tilePos, _hitbox.bounds.center);
-                    //map.SetTile(tilePos, null);
+                    _drillTimeout = 0.0;
+                    Vector3Int tilePos = map.WorldToCell(_hitbox.bounds.center);
+                    if (map.GetTile(tilePos) != null)
+                    {
+                        map.GetComponentInParent<DestroyTile>().KillTile(tilePos, _hitbox.bounds.center);
+                    }
+                } else if (_particleTimeout > particle_freq)
+                {
+                    _particleTimeout = 0.0;
+                    map.GetComponentInParent<DestroyTile>().ParticleDrop(_hitbox.bounds.center);
                 }
             }
 

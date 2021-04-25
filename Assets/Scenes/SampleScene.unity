@@ -357,6 +357,7 @@ GameObject:
   - component: {fileID: 144181245}
   - component: {fileID: 144181247}
   - component: {fileID: 144181248}
+  - component: {fileID: 144181249}
   m_Layer: 0
   m_Name: LevelTiles
   m_TagString: Untagged
@@ -104692,6 +104693,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 144181246}
   Psys: {fileID: 1688852851623259633, guid: d24b21e3f0c656a409025f0e2659f01a, type: 3}
+--- !u!114 &144181249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144181243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a60118489774c4f99dc09820888b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &364715433
 GameObject:
   m_ObjectHideFlags: 0

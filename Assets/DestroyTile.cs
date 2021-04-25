@@ -12,6 +12,11 @@ public class DestroyTile : MonoBehaviour
     public void KillTile(Vector3Int tilePos, Vector3 worldPos)
     {
         map.SetTile(tilePos, null);
+        ParticleDrop(worldPos);
+    }
+
+    public void ParticleDrop(Vector3 worldPos)
+    {
         Instantiate(Psys, worldPos, Quaternion.identity);
     }
 
