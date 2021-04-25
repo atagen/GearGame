@@ -5,7 +5,7 @@ using TMPro;
 
 public class UI : MonoBehaviour
 {
-    public PlayerItems _playerItems;
+    private PlayerItems _playerItems;
     private GameObject _CrystalsUI;
     private GameObject _HealthUI;
     private TMPro.TextMeshProUGUI _crystalsText; 
@@ -14,7 +14,7 @@ public class UI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _CrystalsUI = gameObject.transform.Find("Crystals").gameObject;
+        _CrystalsUI = gameObject.transform.Find("Minerals").gameObject;
         _HealthUI = gameObject.transform.Find("Health").gameObject;
         _crystalsText = _CrystalsUI.transform.Find("Cnt").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
         _healthText = _HealthUI.transform.Find("Cnt").gameObject.GetComponent<TMPro.TextMeshProUGUI>();
