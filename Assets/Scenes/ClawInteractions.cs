@@ -22,6 +22,8 @@ public class ClawInteractions : MonoBehaviour
     public Sprite _drillSpriteA;
     public Sprite _drillSpriteB;
     public PlayerItems inventory;
+
+    private double _drillTimeout = 0.0;
     
     private double _drillAnimationTimer = 0.0;
     private int _drillAnimationSpriteIdx = 1;
@@ -39,6 +41,7 @@ public class ClawInteractions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _drillTimeout += Time.deltaTime;
         if (_clawstate == ClawState.Spinning)
         {
             _drillAnimationTimer += Time.deltaTime;
@@ -81,8 +84,9 @@ public class ClawInteractions : MonoBehaviour
 
             // break walls
             Tilemap map = other.GetComponentInParent<Tilemap>();
-            if (map != null)
+            if (map != null && _drillTimeout > 1.0)
             {
+                _drillTimeout = 0.0;
                 Vector3Int tilePos = map.WorldToCell(_hitbox.bounds.center);
                 if (map.GetTile(tilePos) != null)
                 {
