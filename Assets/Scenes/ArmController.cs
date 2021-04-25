@@ -91,7 +91,7 @@ public class ArmController : MonoBehaviour
         transform.position = boat.position + rotOffset;
 
         Vector3 mouse = _camera.ScreenToWorldPoint(Input.mousePosition - Vector3.forward * _camera.transform.position.z);
-
+        
         Solve(mouse, rot);
     }
 }
