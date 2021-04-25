@@ -34,6 +34,8 @@ public class TerrainGen : MonoBehaviour
             for (int y = map.cellBounds.min.y+1; y < map.cellBounds.max.y-1; y++)
             {
                 Vector3Int pos = new Vector3Int(x,y,0);
+                
+                // fully generative
                 if (PerlinBool( v3IntToFloat(pos, 0.3f)))
                 {
                     map.SetTile(pos, ruleTile);
@@ -41,6 +43,8 @@ public class TerrainGen : MonoBehaviour
                 {
                     map.SetTile(pos, null);
                 }
+                
+                // none of this below works..
                 /*
                 Tile thisTile = map.GetTile<Tile>(pos);
                 int occupied_neighbours = 0;
@@ -49,7 +53,7 @@ public class TerrainGen : MonoBehaviour
                     for (int v = -1; v < 1; v++)
                     {
                         Vector3Int npos = pos + new Vector3Int(h,v,0);
-                        if (map.GetTile<Tile>(pos+npos) == true)
+                        if (map.GetTile<Tile>(npos) == true)
                         {
                             occupied_neighbours++;
                         }
@@ -58,6 +62,7 @@ public class TerrainGen : MonoBehaviour
                 
                 if (occupied_neighbours > min_neighbours && occupied_neighbours < max_neighbours)
                 {
+
                     for (int h = -1; h < 1; h++)
                     {
                         for (int v = -1; v < 1; v++)
@@ -72,8 +77,9 @@ public class TerrainGen : MonoBehaviour
                             }
                         }
                     }
+                    */
                 }
-*/
+                
             }
         }
     }
