@@ -20,6 +20,8 @@ public class SubmarineController : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private float time = 0.0f;
 
+    public Mineral m;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +33,12 @@ public class SubmarineController : MonoBehaviour
     {
         var hmove = Input.GetAxis("Horizontal");
         var vmove = Input.GetAxis("Vertical");
-    
+
+        if (Input.GetButton("Jump"))
+        {
+            Instantiate(m, transform.position, Quaternion.identity);
+        }
+        
         _rigidbody.AddTorque(-hmove * turn_speed);
 
         Vector2 xy;
@@ -47,15 +54,12 @@ public class SubmarineController : MonoBehaviour
         time += Time.deltaTime;
 
         _rigidbody.AddForce(new Vector2(xy.x * move_speed, xy.y * move_speed + Mathf.Sin(time * Mathf.PI) * bob_amount), ForceMode2D.Force );
-
-
+        
         // limit speed
         if (_rigidbody.velocity.magnitude > max_speed)
         {
             _rigidbody.velocity = _rigidbody.velocity.normalized * max_speed;
         }
-
-
     }
 
 }
