@@ -104707,9 +104707,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 144181246}
   ruleTile: {fileID: 11400000, guid: d716497f8ce62364fa92c0ecdb1dcdc5, type: 2}
-  min_neighbours: 1
-  max_neighbours: 6
-  threshold: 0.4
+  min_neighbours: 0
+  max_neighbours: 8
+  threshold: 0.5
 --- !u!1 &285073836
 GameObject:
   m_ObjectHideFlags: 0
@@ -104785,6 +104785,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285073836}
   m_CullTransparentMesh: 1
+>>>>>>> bee8bd17f9cf2807f4756301a0936675b7eae83f
 --- !u!1 &364715433
 GameObject:
   m_ObjectHideFlags: 0

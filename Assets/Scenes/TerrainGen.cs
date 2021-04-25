@@ -29,11 +29,14 @@ public class TerrainGen : MonoBehaviour
     {
 
         Debug.Log("generating terrain..");
+        int changedTiles = 0;
         for (int x = map.cellBounds.min.x+1; x < map.cellBounds.max.x-1; x++)
         {
             for (int y = map.cellBounds.min.y+1; y < map.cellBounds.max.y-1; y++)
             {
                 Vector3Int pos = new Vector3Int(x,y,0);
+                /*
+                // fully generative
                 if (PerlinBool( v3IntToFloat(pos, 0.3f)))
                 {
                     map.SetTile(pos, ruleTile);
@@ -41,6 +44,12 @@ public class TerrainGen : MonoBehaviour
                 {
                     map.SetTile(pos, null);
                 }
+<<<<<<< HEAD
+=======
+                */
+                // none of this below works..
+                
+>>>>>>> 3c2fc5cf8388833f97a335e4533781645c25f4ae
                 Tile thisTile = map.GetTile<Tile>(pos);
                 int occupied_neighbours = 0;
                 for (int h = -1; h < 1; h++)
@@ -49,6 +58,7 @@ public class TerrainGen : MonoBehaviour
                     {
                         Vector3Int npos = pos + new Vector3Int(h,v,0);
                         if (map.GetTile<Tile>(pos+npos) == true)
+                        if (map.GetTile<Tile>(npos) == true)
                         {
                             occupied_neighbours++;
                         }
@@ -57,6 +67,7 @@ public class TerrainGen : MonoBehaviour
                 
                 if (occupied_neighbours > min_neighbours && occupied_neighbours < max_neighbours)
                 {
+
                     for (int h = -1; h < 1; h++)
                     {
                         for (int v = -1; v < 1; v++)
@@ -69,11 +80,18 @@ public class TerrainGen : MonoBehaviour
                             {
                                 map.SetTile(npos, null);
                             }
+                            changedTiles++;
                         }
                     }
+                    
                 }
+<<<<<<< HEAD
+=======
+                
+>>>>>>> 3c2fc5cf8388833f97a335e4533781645c25f4ae
             }
         }
+        Debug.Log("attempted to change " + changedTiles + " tiles");
     }
 
     // Update is called once per frame
