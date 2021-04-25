@@ -48,23 +48,17 @@ public class ArmController : MonoBehaviour
 
         int steps = 0;
         float[] angles = new float[lengths.Length];
-        while (Vector2.Distance(p[p.Length - 1], target) > .5 && steps++ < 1)
+        Vector2[] t = new Vector2[p.Length];
+        t[p.Length - 1] = target;
+        for (int i = p.Length - 2; i >= 0; i--)
         {
-            Vector2[] t = new Vector2[p.Length];
-            t[p.Length - 1] = target;
-            for (int i = p.Length - 2; i >= 0; i--)
-            {
-                t[i] = t[i + 1] + (p[i] - t[i + 1]).normalized * (lengths[i] + .1f);
-            }
-            for (int i = 1; i < p.Length; i++)
-            {
-                p[i] = t[i] - t[i - 1];
-                // if (i==1)
-                //     angles[i - 1] = ClampAngle(Mathf.Atan2(p[i].x, -p[i].y) * Mathf.Rad2Deg, minAngles[i-1], maxAngles[i-1]) * Mathf.Deg2Rad;
-                // else 
-                    angles[i - 1] = Mathf.Atan2(p[i].x, -p[i].y);
-                p[i] = new Vector2(Mathf.Cos(angles[i - 1]), Mathf.Sin(angles[i - 1])) * lengths[i-1] + p[i-1];
-            }
+            t[i] = t[i + 1] + (p[i] - t[i + 1]).normalized * (lengths[i] + .1f);
+        }
+        for (int i = 1; i < p.Length; i++)
+        {
+            p[i] = t[i] - t[i - 1]; 
+            angles[i - 1] = Mathf.Atan2(p[i].x, -p[i].y);
+            p[i] = new Vector2(Mathf.Cos(angles[i - 1]), Mathf.Sin(angles[i - 1])) * lengths[i-1] + p[i-1];
         }
 
         for (int i = 0; i < pivots.Length; i++)
