@@ -357,6 +357,7 @@ GameObject:
   - component: {fileID: 144181245}
   - component: {fileID: 144181247}
   - component: {fileID: 144181248}
+  - component: {fileID: 144181249}
   m_Layer: 0
   m_Name: LevelTiles
   m_TagString: Untagged
@@ -104692,6 +104693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   map: {fileID: 144181246}
   Psys: {fileID: 1688852851623259633, guid: d24b21e3f0c656a409025f0e2659f01a, type: 3}
+<<<<<<< HEAD
 --- !u!1 &150561138
 GameObject:
   m_ObjectHideFlags: 0
@@ -104730,11 +104732,15 @@ RectTransform:
   m_SizeDelta: {x: 81.472, y: 81.4724}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &150561140
+=======
+--- !u!114 &144181249
+>>>>>>> 544d376204df2e66b2a0f443d2aa8258eb9ac9da
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 150561138}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -104767,6 +104773,14 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150561138}
   m_CullTransparentMesh: 1
+=======
+  m_GameObject: {fileID: 144181243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a60118489774c4f99dc09820888b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+>>>>>>> 544d376204df2e66b2a0f443d2aa8258eb9ac9da
 --- !u!1 &364715433
 GameObject:
   m_ObjectHideFlags: 0
@@ -147128,6 +147142,8 @@ MonoBehaviour:
   _drillSpriteA: {fileID: 21300000, guid: 6bbf96ebf94a7ce4c9e46e20acba57e4, type: 3}
   _drillSpriteB: {fileID: 21300000, guid: cfe22702c4a49fb4eb2833da7a261884, type: 3}
   inventory: {fileID: 858309714}
+  particle_freq: 0.2
+  drill_timeout: 0.6
 --- !u!212 &723110435
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -147501,7 +147517,7 @@ MonoBehaviour:
   move_speed: 200
   max_speed: 800
   bob_amount: 10
-  m: {fileID: 0}
+  m: {fileID: 8171765150047774766, guid: 28c66d4ba65133f428f4fdcffd7c0e9f, type: 3}
 --- !u!50 &858309713
 Rigidbody2D:
   serializedVersion: 4
@@ -152542,7 +152558,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+<<<<<<< HEAD
 --- !u!1 &1382428170
+=======
+--- !u!1 &1459485250
+>>>>>>> 544d376204df2e66b2a0f443d2aa8258eb9ac9da
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152550,16 +152570,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 1382428171}
   - component: {fileID: 1382428173}
   - component: {fileID: 1382428172}
   m_Layer: 5
   m_Name: Cnt
+=======
+  - component: {fileID: 1459485252}
+  - component: {fileID: 1459485251}
+  m_Layer: 0
+  m_Name: MineralHolder
+>>>>>>> 544d376204df2e66b2a0f443d2aa8258eb9ac9da
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!224 &1382428171
 RectTransform:
   m_ObjectHideFlags: 0
@@ -152580,11 +152608,15 @@ RectTransform:
   m_SizeDelta: {x: 240.7485, y: 45.7846}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1382428172
+=======
+--- !u!114 &1459485251
+>>>>>>> 544d376204df2e66b2a0f443d2aa8258eb9ac9da
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1382428170}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -152733,10 +152765,21 @@ GameObject:
   m_IsActive: 1
 --- !u!224 &1416588869
 RectTransform:
+=======
+  m_GameObject: {fileID: 1459485250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d8e7b3bf315114ea128f56a0a48253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1459485252
+Transform:
+>>>>>>> 544d376204df2e66b2a0f443d2aa8258eb9ac9da
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 1416588868}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -152847,6 +152890,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416588868}
   m_CullTransparentMesh: 1
+=======
+  m_GameObject: {fileID: 1459485250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -41.47219, y: -188.37198, z: -606.953}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+>>>>>>> 544d376204df2e66b2a0f443d2aa8258eb9ac9da
 --- !u!1 &1465771548
 GameObject:
   m_ObjectHideFlags: 0
