@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +8,9 @@ public class ArmController : MonoBehaviour
 {
     private Camera _camera;
     private Transform[] pivots;
+    private Vector3 offset;
 
     public Transform boat;
-
     public float[] lengths;
     public float[] minAngles;
     public float[] maxAngles;
@@ -17,13 +18,15 @@ public class ArmController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        offset = transform.position/2.0f;
+/*
         pivots = new Transform[lengths.Length];
         pivots[0] = transform.GetChild(0);
         float offs = lengths[0];
         for (int i = 1; i < lengths.Length; i++)
         {
             pivots[i] = pivots[i - 1].GetChild(0);
-            pivots[i].position = new Vector3(offs, 0, 0);
+            pivots[i].position = new Vector3(offset.position.x, offset.position.y+offs, offset.position.z);
             offs += lengths[i];
         }
         for (int i = 0; i < lengths.Length; i++)
@@ -32,7 +35,7 @@ public class ArmController : MonoBehaviour
             arm.localScale = new Vector3(lengths[i],0.2f,1);
             arm.localPosition = new Vector3(lengths[i] / 2, 0, 0);
         }
-
+*/
         _camera = Camera.main;
     }
 
@@ -77,10 +80,12 @@ public class ArmController : MonoBehaviour
     }
 
 // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position = boat.position;
+        transform.position = boat.position + offset;
+
         Vector3 mouse = _camera.ScreenToWorldPoint(Input.mousePosition - Vector3.forward * _camera.transform.position.z);
-        Solve(mouse);
+
+        //Solve(mouse);
     }
 }

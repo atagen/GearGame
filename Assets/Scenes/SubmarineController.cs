@@ -34,8 +34,15 @@ public class SubmarineController : MonoBehaviour
     
         _rigidbody.AddTorque(-hmove * turn_speed);
 
-        var a = Mathf.Deg2Rad * transform.eulerAngles.z;
-        var xy = new Vector2(Mathf.Cos(a) * vmove, Mathf.Sin(a) * vmove);
+        Vector2 xy;
+        if (vmove > 0.0001f || vmove < -0.0001f)
+        {
+            var a = Mathf.Deg2Rad * transform.eulerAngles.z;
+            xy = new Vector2(Mathf.Cos(a) * vmove, Mathf.Sin(a) * vmove);
+        } else {
+            xy = new Vector2(0.0f, 0.0f);
+        }
+
         // helps us bob up and down slightly
         time += Time.deltaTime;
 

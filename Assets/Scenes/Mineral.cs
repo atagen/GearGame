@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class Mineral : MonoBehaviour
 {
-    public float mineral_value;
+    public float Mineral_value;
+
+    public float getValue()
+    {
+        return Mineral_value;
+    }
 }

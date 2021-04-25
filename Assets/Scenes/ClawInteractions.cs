@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,26 +29,29 @@ public class ClawInteractions : MonoBehaviour
         {
             _clawstate = ClawState.Spinning;
             Debug.Log("lmb, " + _clawstate);
-        } else if (Input.GetMouseButtonDown(1))
+        } else if (_clawstate == ClawState.Spinning & Input.GetMouseButtonDown(1))
         {
             _clawstate = ClawState.Firing;
-            Debug.Log("rmb, " + _clawstate);
-        } else {
+            Debug.Log("lmb+rmb, " + _clawstate);
+        } else if (Input.GetMouseButtonUp(0))
+        {
             _clawstate = ClawState.Idle;
+            Debug.Log("released claw, " + _clawstate);
         }
-
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("hit something with claw");
         if (_clawstate == ClawState.Spinning)
         {
             Mineral min = other.GetComponent<Mineral>();
-            Debug.Log("it was: " + min);
-            if (min != null)
+            if (min != null && min.GetType() == typeof(Mineral))
             {
-                Debug.Log("drilled mineral for " + min.mineral_value);
-                inventory.mineral_count += min.mineral_value;
+                inventory.mineral_count += min.getValue();
+                // particle system will play then destroy object
+                other.GetComponent<ParticleSystem>().Play();
+                other.GetComponent<SpriteRenderer>().enabled = false;
+                // in the meantime, destroy the mineral so we can't double-mine it
+                Destroy(min);
             }
         }
     }
