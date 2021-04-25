@@ -20,7 +20,7 @@ public class ClawInteractions : MonoBehaviour
     public Sprite _drillSpriteB;
     public PlayerItems inventory;
     public double particle_freq;
-
+    public double drill_timeout;
 
     private ClawState _clawstate;
     private Collider2D _hitbox;
@@ -96,7 +96,7 @@ public class ClawInteractions : MonoBehaviour
             Tilemap map = other.GetComponentInParent<Tilemap>();
             if (map != null)
             {
-                if (_drillTimeout > 1.0)
+                if (_drillTimeout > drill_timeout)
                 {
                     _drillTimeout = 0.0;
                     Vector3Int tilePos = map.WorldToCell(_hitbox.bounds.center);

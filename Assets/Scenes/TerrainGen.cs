@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
+using Debug = UnityEngine.Debug;
 public class TerrainGen : MonoBehaviour
 {
 
@@ -19,7 +19,7 @@ public class TerrainGen : MonoBehaviour
     void Start()
     {
         map = GetComponent<Tilemap>();
-
+        Debug.Log("generating terrain..");
         for (int x = map.cellBounds.min.x+1; x < map.cellBounds.max.x-1; x++)
         {
             for (int y = map.cellBounds.min.y+1; y < map.cellBounds.max.y-1; y++)

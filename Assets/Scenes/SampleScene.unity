@@ -147001,6 +147001,7 @@ MonoBehaviour:
   _drillSpriteB: {fileID: 21300000, guid: cfe22702c4a49fb4eb2833da7a261884, type: 3}
   inventory: {fileID: 858309714}
   particle_freq: 0.2
+  drill_timeout: 0.6
 --- !u!212 &723110435
 SpriteRenderer:
   m_ObjectHideFlags: 0
