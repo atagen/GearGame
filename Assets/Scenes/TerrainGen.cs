@@ -9,16 +9,21 @@ using Debug = UnityEngine.Debug;
 public class TerrainGen : MonoBehaviour
 {
 
-    Tilemap map;
-    private bool PerlinBool(float x, float y)
+    public Tilemap map;
+    
+    public TileBase ruleTile;
+    public int min_neighbours;
+    public int max_neighbours;
+    public float threshold;
+    private bool PerlinBool(Vector3 pos)
     {
-        return (Mathf.PerlinNoise(x, y) > 0.5f) ? true : false;
+        return (Mathf.PerlinNoise(pos.x, pos.y) > threshold) ? true : false;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        map = GetComponent<Tilemap>();
+
         Debug.Log("generating terrain..");
         for (int x = map.cellBounds.min.x+1; x < map.cellBounds.max.x-1; x++)
         {
@@ -38,17 +43,22 @@ public class TerrainGen : MonoBehaviour
                         }
                     }
                 }
-
-                if (occupied_neighbours > 2)
+                
+                if (occupied_neighbours > min_neighbours && occupied_neighbours < max_neighbours)
                 {
                     for (int h = -1; h < 1; h++)
                     {
                         for (int v = -1; v < 1; v++)
                         {
                             Vector3Int npos = pos + new Vector3Int(h,v,0);
-                            if (PerlinBool(x+h,y+v))
+                            if ( PerlinBool(new Vector3((float)npos.x * 0.3f, (float)npos.y * 0.2f, 0)) )
                             {
-                                map.SetTile(pos+npos, thisTile);
+                                Debug.Log("inserting tile at " + npos);
+                                map.SetTile(npos, ruleTile);
+                            } else
+                            {
+                                Debug.Log("destroying tile at " + npos);
+                                map.SetTile(npos, null);
                             }
                         }
                     }

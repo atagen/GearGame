@@ -104705,6 +104705,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a60118489774c4f99dc09820888b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 144181246}
+  ruleTile: {fileID: 11400000, guid: d716497f8ce62364fa92c0ecdb1dcdc5, type: 2}
+  min_neighbours: 0
+  max_neighbours: 8
+  threshold: 0.5
 --- !u!1 &364715433
 GameObject:
   m_ObjectHideFlags: 0
@@ -146970,18 +146975,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.072380066, y: -6.5739436}
+  m_Offset: {x: 0.16055715, y: -6.8825703}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 8.88, z: 7.0699997, w: 0}
-    pivot: {x: 0.49028152, y: 0.91163725}
-    oldSize: {x: 7.07, y: 8.88}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.46735513, y: 0.9209224}
+    oldSize: {x: 6.94, y: 9.76}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.0566897, y: 2.4872255}
+  m_Size: {x: 3.5276186, y: 3.986267}
   m_EdgeRadius: 0.1
 --- !u!114 &723110434
 MonoBehaviour:
@@ -147042,7 +147047,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 66787415b44904c4c8f458725a8edb99, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 87d57e87051b4c842a05c640bbfd78df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -147371,8 +147376,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 014a81c817a548b4a8262567e705564a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turn_speed: 300
-  move_speed: 200
+  turn_speed: 230
+  move_speed: 150
   max_speed: 800
   bob_amount: 10
   m: {fileID: 8171765150047774766, guid: 28c66d4ba65133f428f4fdcffd7c0e9f, type: 3}
