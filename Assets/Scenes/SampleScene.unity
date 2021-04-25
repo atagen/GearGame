@@ -147537,6 +147537,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4d0c75c8c330042a49491e120fb429, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clawSpriteClosed: {fileID: 21300000, guid: 87d57e87051b4c842a05c640bbfd78df, type: 3}
+  _clawSpriteOpen: {fileID: 21300000, guid: 66787415b44904c4c8f458725a8edb99, type: 3}
+  _drillSpriteA: {fileID: 21300000, guid: 6bbf96ebf94a7ce4c9e46e20acba57e4, type: 3}
+  _drillSpriteB: {fileID: 21300000, guid: cfe22702c4a49fb4eb2833da7a261884, type: 3}
   inventory: {fileID: 858309714}
 --- !u!212 &723110435
 SpriteRenderer:
