@@ -16,21 +16,49 @@ public class ClawInteractions : MonoBehaviour
 {
     private ClawState _clawstate;
     private Collider2D _hitbox;
+    private SpriteRenderer _spriteRenderer;
+    public Sprite _clawSpriteClosed;
+    public Sprite _clawSpriteOpen;
+    public Sprite _drillSpriteA;
+    public Sprite _drillSpriteB;
     public PlayerItems inventory;
+    
+    private double _drillAnimationTimer = 0.0;
+    private int _drillAnimationSpriteIdx = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         _clawstate = ClawState.Idle;
         _hitbox = this.GetComponent<BoxCollider2D>();
+        _spriteRenderer = this.GetComponent<SpriteRenderer>();
+
+        _spriteRenderer.sprite = _clawSpriteClosed;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_clawstate == ClawState.Spinning)
+        {
+            _drillAnimationTimer += Time.deltaTime;
+            if (_drillAnimationTimer > 0.1) {
+                _drillAnimationTimer = 0;
+                _drillAnimationSpriteIdx = 1 - _drillAnimationSpriteIdx;
+                if(_drillAnimationSpriteIdx == 0)
+                {
+                    _spriteRenderer.sprite = _drillSpriteA;
+                } else
+                {
+                    _spriteRenderer.sprite = _drillSpriteB;
+                }
+            }
+
+        }
         // lmb drill, rmb fire/manipulate
         if (Input.GetMouseButtonDown(0))
         {
+            _drillAnimationTimer = 0.0f;
             _clawstate = ClawState.Spinning;
             Debug.Log("lmb, " + _clawstate);
         } else if (_clawstate == ClawState.Spinning & Input.GetMouseButtonDown(1))
@@ -39,6 +67,7 @@ public class ClawInteractions : MonoBehaviour
             Debug.Log("lmb+rmb, " + _clawstate);
         } else if (Input.GetMouseButtonUp(0))
         {
+            _spriteRenderer.sprite = _clawSpriteClosed;
             _clawstate = ClawState.Idle;
             Debug.Log("released claw, " + _clawstate);
         }
