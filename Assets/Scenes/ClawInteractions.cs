@@ -26,6 +26,9 @@ public class ClawInteractions : MonoBehaviour
     private Collider2D _hitbox;
     private SpriteRenderer _spriteRenderer;
 
+    private AudioSource _audioSourceDrill;
+    private AudioSource _audioSourceDig;
+
     private double _drillTimeout = 0.0;
     private double _particleTimeout = 0.0;
     
@@ -38,6 +41,8 @@ public class ClawInteractions : MonoBehaviour
         _clawstate = ClawState.Idle;
         _hitbox = this.GetComponent<BoxCollider2D>();
         _spriteRenderer = this.GetComponent<SpriteRenderer>();
+        _audioSourceDrill = this.GetComponents<AudioSource>()[0];
+        _audioSourceDig = this.GetComponents<AudioSource>()[1];
 
         _spriteRenderer.sprite = _clawSpriteClosed;
     }
@@ -66,18 +71,18 @@ public class ClawInteractions : MonoBehaviour
         // lmb drill, rmb fire/manipulate
         if (Input.GetMouseButtonDown(0))
         {
-            _drillAnimationTimer = 0.0f;
             _clawstate = ClawState.Spinning;
-            //Debug.Log("lmb, " + _clawstate);
+            _drillAnimationTimer = 0.0f;
+            _audioSourceDrill.Play();
         } else if (_clawstate == ClawState.Spinning & Input.GetMouseButtonDown(1))
         {
             _clawstate = ClawState.Firing;
             Debug.Log("lmb+rmb, " + _clawstate);
         } else if (Input.GetMouseButtonUp(0))
         {
-            _spriteRenderer.sprite = _clawSpriteClosed;
             _clawstate = ClawState.Idle;
-            //Debug.Log("released claw, " + _clawstate);
+            _spriteRenderer.sprite = _clawSpriteClosed;
+            _audioSourceDrill.Stop();
         }
     }
 
@@ -97,12 +102,14 @@ public class ClawInteractions : MonoBehaviour
                     Vector3Int tilePos = map.WorldToCell(_hitbox.bounds.center);
                     if (map.GetTile(tilePos) != null)
                     {
+                        _audioSourceDig.Play();
                         map.GetComponentInParent<DestroyTile>().KillTile(tilePos, _hitbox.bounds.center);
                     }
                 } else if (_particleTimeout > particle_freq)
                 {
                     _particleTimeout = 0.0;
                     map.GetComponentInParent<DestroyTile>().ParticleDrop(_hitbox.bounds.center);
+                    _audioSourceDig.Play();
                 }
             }
 
@@ -110,6 +117,7 @@ public class ClawInteractions : MonoBehaviour
             Mineral min = other.GetComponent<Mineral>();
             if (min != null && min.GetType() == typeof(Mineral))
             {
+                _audioSourceDig.Play();
                 inventory.mineral_count += min.getValue();
                 // particle system will play then destroy object
                 other.GetComponent<ParticleSystem>().Play();
