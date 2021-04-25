@@ -19,7 +19,7 @@ public class ArmController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position;
+        offset = new Vector3(2.0f, -1.0f, 0.0f);
 
         _camera = Camera.main;
 
@@ -50,7 +50,7 @@ public class ArmController : MonoBehaviour
         return Mathf.Clamp(angle, min + floor, max + floor);
     }
 
-    private void Solve(Vector2 target)
+    private void Solve(Vector2 target, float baseRotation)
     {
         Vector2[] p = new Vector2[lengths.Length + 1];
         p[0] = pivots[0].position;
@@ -79,18 +79,19 @@ public class ArmController : MonoBehaviour
 
         for (int i = 0; i < pivots.Length; i++)
         {
-            pivots[i].eulerAngles = new Vector3(0, 0, angles[i] * Mathf.Rad2Deg);
+            pivots[i].eulerAngles = new Vector3(0, 0, angles[i] * Mathf.Rad2Deg + baseRotation);
         }
     }
 
 // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position = boat.position;
-        transform.localRotation = boat.localRotation;
+        float rot = boat.eulerAngles.z;
+        Vector3 rotOffset = Quaternion.AngleAxis(-rot, Vector3.up) * offset;
+        transform.position = boat.position + rotOffset;
 
         Vector3 mouse = _camera.ScreenToWorldPoint(Input.mousePosition - Vector3.forward * _camera.transform.position.z);
 
-        Solve(mouse);
+        Solve(mouse, rot);
     }
 }
