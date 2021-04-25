@@ -1,3 +1,4 @@
+using System.Transactions;
 using System.Diagnostics;
 using System;
 using System.Collections;
@@ -18,25 +19,28 @@ public class ArmController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position/2.0f;
-/*
+        offset = transform.position;
+
+        _camera = Camera.main;
+
         pivots = new Transform[lengths.Length];
         pivots[0] = transform.GetChild(0);
         float offs = lengths[0];
         for (int i = 1; i < lengths.Length; i++)
         {
             pivots[i] = pivots[i - 1].GetChild(0);
-            pivots[i].position = new Vector3(offset.position.x, offset.position.y+offs, offset.position.z);
+            pivots[i].position = new Vector3(0, offs, 0);
             offs += lengths[i];
         }
+        
         for (int i = 0; i < lengths.Length; i++)
         {
             Transform arm = pivots[i].GetChild(1);
-            arm.localScale = new Vector3(lengths[i],0.2f,1);
-            arm.localPosition = new Vector3(lengths[i] / 2, 0, 0);
+            //arm.localScale = new Vector3(1,lengths[i],1);
+            arm.localPosition = new Vector3(0, lengths[i] / 2, 0);
         }
-*/
-        _camera = Camera.main;
+
+
     }
 
     private static float ClampAngle(float angle, float min, float max)
@@ -82,10 +86,11 @@ public class ArmController : MonoBehaviour
 // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position = boat.position + offset;
+        transform.position = boat.position;
+        transform.localRotation = boat.localRotation;
 
         Vector3 mouse = _camera.ScreenToWorldPoint(Input.mousePosition - Vector3.forward * _camera.transform.position.z);
 
-        //Solve(mouse);
+        Solve(mouse);
     }
 }
