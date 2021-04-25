@@ -41,7 +41,6 @@ public class TerrainGen : MonoBehaviour
                 {
                     map.SetTile(pos, null);
                 }
-                /*
                 Tile thisTile = map.GetTile<Tile>(pos);
                 int occupied_neighbours = 0;
                 for (int h = -1; h < 1; h++)
@@ -73,7 +72,6 @@ public class TerrainGen : MonoBehaviour
                         }
                     }
                 }
-*/
             }
         }
     }
@@ -81,6 +79,5 @@ public class TerrainGen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

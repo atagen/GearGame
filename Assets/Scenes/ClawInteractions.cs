@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Debug = UnityEngine.Debug;
+using Pathfinding;
+
 enum ClawState
 {
     Idle,
@@ -21,6 +23,7 @@ public class ClawInteractions : MonoBehaviour
     public PlayerItems inventory;
     public double particle_freq;
     public double drill_timeout;
+    public AstarPath _pathfinding;
 
     private ClawState _clawstate;
     private Collider2D _hitbox;
@@ -44,6 +47,8 @@ public class ClawInteractions : MonoBehaviour
         _audioSourceDrill = this.GetComponents<AudioSource>()[0];
         _audioSourceDig = this.GetComponents<AudioSource>()[1];
 
+        _pathfinding = FindObjectOfType<AstarPath>();
+        
         _spriteRenderer.sprite = _clawSpriteClosed;
     }
 
@@ -103,6 +108,10 @@ public class ClawInteractions : MonoBehaviour
                     if (map.GetTile(tilePos) != null)
                     {
                         _audioSourceDig.Play();
+                        //_pathfinding.Scan();
+                        //_pathfinding.ScanAsync();
+                        //_pathfinding.UpdateGraphs(_pathfinding.graph);
+                        //Pathfinding.AstarPathEditor.MenuScan();
                         map.GetComponentInParent<DestroyTile>().KillTile(tilePos, _hitbox.bounds.center);
                     }
                 } else if (_particleTimeout > particle_freq)
