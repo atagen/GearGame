@@ -39,7 +39,7 @@ public class SubmarineController : MonoBehaviour
             Instantiate(m, transform.position, Quaternion.identity);
         }
         
-        _rigidbody.AddTorque(-hmove * turn_speed);
+        _rigidbody.AddTorque(-hmove * Mathf.Sign(vmove) * turn_speed);
 
         Vector2 xy;
         if (vmove > 0.0001f || vmove < -0.0001f)
