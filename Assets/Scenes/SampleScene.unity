@@ -104709,7 +104709,7 @@ MonoBehaviour:
   ruleTile: {fileID: 11400000, guid: d716497f8ce62364fa92c0ecdb1dcdc5, type: 2}
   min_neighbours: 0
   max_neighbours: 8
-  threshold: 0.5
+  threshold: 0.4
 --- !u!1 &364715433
 GameObject:
   m_ObjectHideFlags: 0

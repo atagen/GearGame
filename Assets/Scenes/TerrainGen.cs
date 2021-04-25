@@ -19,6 +19,11 @@ public class TerrainGen : MonoBehaviour
     {
         return (Mathf.PerlinNoise(pos.x, pos.y) > threshold) ? true : false;
     }
+
+    Vector3 v3IntToFloat(Vector3Int v, float scale)
+    {
+        return new Vector3(v.x * scale, v.y * scale, 0);
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -30,6 +35,18 @@ public class TerrainGen : MonoBehaviour
             for (int y = map.cellBounds.min.y+1; y < map.cellBounds.max.y-1; y++)
             {
                 Vector3Int pos = new Vector3Int(x,y,0);
+
+                // basic perlin map from scratch
+
+                if (PerlinBool(v3IntToFloat(pos, 0.3f)))
+                {
+                    map.SetTile(pos, ruleTile);
+                } else
+                {
+                    map.SetTile(pos, null);
+                }
+                
+/*
                 Tile thisTile = map.GetTile<Tile>(pos);
                 int occupied_neighbours = 0;
                 for (int h = -1; h < 1; h++)
@@ -43,7 +60,9 @@ public class TerrainGen : MonoBehaviour
                         }
                     }
                 }
-                
+
+
+
                 if (occupied_neighbours > min_neighbours && occupied_neighbours < max_neighbours)
                 {
                     for (int h = -1; h < 1; h++)
@@ -51,19 +70,17 @@ public class TerrainGen : MonoBehaviour
                         for (int v = -1; v < 1; v++)
                         {
                             Vector3Int npos = pos + new Vector3Int(h,v,0);
-                            if ( PerlinBool(new Vector3((float)npos.x * 0.3f, (float)npos.y * 0.2f, 0)) )
+                            if ( PerlinBool(v3IntToFloat(npos, 0.3f)) )
                             {
-                                Debug.Log("inserting tile at " + npos);
                                 map.SetTile(npos, ruleTile);
                             } else
                             {
-                                Debug.Log("destroying tile at " + npos);
                                 map.SetTile(npos, null);
                             }
                         }
                     }
                 }
-
+*/
             }
         }
     }
