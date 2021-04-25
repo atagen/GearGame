@@ -4,43 +4,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class ArmController : MonoBehaviour
 {
     private Camera _camera;
     private Transform[] pivots;
-    private Vector3 offset;
 
     public Transform boat;
     public float[] lengths;
-    public float[] minAngles;
-    public float[] maxAngles;
 
     // Start is called before the first frame update
     void Start()
     {
-        offset = new Vector3(2.0f, -1.0f, 0.0f);
-
         _camera = Camera.main;
 
         pivots = new Transform[lengths.Length];
         pivots[0] = transform.GetChild(0);
-        float offs = lengths[0];
         for (int i = 1; i < lengths.Length; i++)
         {
             pivots[i] = pivots[i - 1].GetChild(0);
-            pivots[i].position = new Vector3(0, offs, 0);
-            offs += lengths[i];
+            pivots[i].localPosition = new Vector3(0, -lengths[i-1], 0);
         }
-        
-        for (int i = 0; i < lengths.Length; i++)
-        {
-            Transform arm = pivots[i].GetChild(1);
-            //arm.localScale = new Vector3(1,lengths[i],1);
-            arm.localPosition = new Vector3(0, lengths[i] / 2, 0);
-        }
-
-
     }
 
     private static float ClampAngle(float angle, float min, float max)
@@ -56,39 +41,53 @@ public class ArmController : MonoBehaviour
         p[0] = pivots[0].position;
         for (int i = 1; i < p.Length; i++)
         {
-            p[i] = new Vector2(p[i-1].x, p[i-1].y - lengths[i-1]);
+            float angle = (baseRotation - 45) * Mathf.Deg2Rad;
+            Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized * lengths[i-1];
+            p[i] = p[i-1] + dir;
         }
 
         int steps = 0;
         float[] angles = new float[lengths.Length];
-        while (Vector2.Distance(p[p.Length - 1], target) > .1 && steps++ < 30)
+        while (Vector2.Distance(p[p.Length - 1], target) > .5 && steps++ < 1)
         {
             Vector2[] t = new Vector2[p.Length];
             t[p.Length - 1] = target;
             for (int i = p.Length - 2; i >= 0; i--)
             {
-                t[i] = t[i + 1] + (p[i] - t[i + 1]).normalized * lengths[i];
+                t[i] = t[i + 1] + (p[i] - t[i + 1]).normalized * (lengths[i] + .1f);
             }
             for (int i = 1; i < p.Length; i++)
             {
                 p[i] = t[i] - t[i - 1];
-                angles[i - 1] = ClampAngle(Mathf.Atan2(p[i].y, p[i].x) * Mathf.Rad2Deg, minAngles[i-1], maxAngles[i-1]) * Mathf.Deg2Rad;
+                // if (i==1)
+                //     angles[i - 1] = ClampAngle(Mathf.Atan2(p[i].x, -p[i].y) * Mathf.Rad2Deg, minAngles[i-1], maxAngles[i-1]) * Mathf.Deg2Rad;
+                // else 
+                    angles[i - 1] = Mathf.Atan2(p[i].x, -p[i].y);
                 p[i] = new Vector2(Mathf.Cos(angles[i - 1]), Mathf.Sin(angles[i - 1])) * lengths[i-1] + p[i-1];
             }
         }
 
         for (int i = 0; i < pivots.Length; i++)
         {
-            pivots[i].eulerAngles = new Vector3(0, 0, angles[i] * Mathf.Rad2Deg + baseRotation);
+            pivots[i].eulerAngles = new Vector3(0, 0, angles[i] * Mathf.Rad2Deg);
         }
     }
 
-// Update is called once per frame
+    private void OnDrawGizmos()
+    {
+        Vector3 mouse = _camera.ScreenToWorldPoint(Input.mousePosition - Vector3.forward * _camera.transform.position.z);
+        Gizmos.DrawSphere(new Vector3(mouse.x, mouse.y, 0),.5f);
+        Gizmos.DrawSphere(transform.position,.5f);
+        for (int i = 0; i < pivots.Length; i++)
+        {
+            Gizmos.DrawSphere(pivots[i].position,.5f);
+        }
+    }
+
+    // Update is called once per frame
     void FixedUpdate()
     {
         float rot = boat.eulerAngles.z;
-        Vector3 rotOffset = Quaternion.AngleAxis(-rot, Vector3.up) * offset;
-        transform.position = boat.position + rotOffset;
 
         Vector3 mouse = _camera.ScreenToWorldPoint(Input.mousePosition - Vector3.forward * _camera.transform.position.z);
         
