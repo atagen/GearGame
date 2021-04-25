@@ -73,16 +73,6 @@ public class ArmController : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Vector3 mouse = _camera.ScreenToWorldPoint(Input.mousePosition - Vector3.forward * _camera.transform.position.z);
-        Gizmos.DrawSphere(new Vector3(mouse.x, mouse.y, 0),.5f);
-        Gizmos.DrawSphere(transform.position,.5f);
-        for (int i = 0; i < pivots.Length; i++)
-        {
-            Gizmos.DrawSphere(pivots[i].position,.5f);
-        }
-    }
 
     // Update is called once per frame
     void FixedUpdate()
