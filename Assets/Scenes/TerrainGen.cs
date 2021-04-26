@@ -1,7 +1,3 @@
-using System;
-using System.Diagnostics;
-using System.Net.Mail;
-using System.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +14,9 @@ public class TerrainGen : MonoBehaviour
     public float noise_scale;
     public int iterations;
     public bool exclusive;
+    public float gem_chance;
+    public Mineral gem;
+    public int gem_neighbours;
     private int seed;
     private bool PerlinBool(Vector3 pos)
     {
@@ -43,19 +42,23 @@ public class TerrainGen : MonoBehaviour
         List<Vector3Int> changes = new List<Vector3Int>();
 
         Vector3Int offset = new Vector3Int(-map.cellBounds.min.x, -map.cellBounds.min.y, seed);
+        
+        int gemsSpawned = 0;
 
         for (int x = map.cellBounds.min.x+1; x < map.cellBounds.max.x-1; x++)
         {
             for (int y = map.cellBounds.min.y+1; y < map.cellBounds.max.y-1; y++)
             {
                 Vector3Int pos = new Vector3Int(x,y,0);
-  
+                int occupied_neighbours = 0;
+                
+                // procedural terrain disturbance
                 // only act on tiles that are occupied with our intended target already
                 if (!exclusive && map.GetTile(pos) == ruleTile
                     ||
                     exclusive )
                 {
-                    int occupied_neighbours = 0;
+                    
 
                     for (int h = -1; h < 2; h++)
                     {
@@ -63,7 +66,7 @@ public class TerrainGen : MonoBehaviour
                         {
                             Vector3Int npos = pos + new Vector3Int(h,v,0);
 
-                            if (!(h == 0 && v == 0) && map.GetTile(npos) == true)
+                            if (!(h == 0 && v == 0) && map.GetTile(npos) == ruleTile)
                             {
                                 occupied_neighbours++;
                             }
@@ -87,9 +90,15 @@ public class TerrainGen : MonoBehaviour
 
                 } // if tile exists
                 
+
+                //gem placement
+                if (occupied_neighbours > gem_neighbours && Random.Range(0f, 1f) < gem_chance)
+                    Instantiate(gem, map.CellToWorld(pos), Quaternion.Euler(0,0,Random.Range(0,360)));
+
+
             } // y
         } // x
-
+        Debug.Log("spawned " + gemsSpawned + " gems");
         return changes;
     }
 

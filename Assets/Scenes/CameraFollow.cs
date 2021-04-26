@@ -18,7 +18,7 @@ public class CameraFollow : MonoBehaviour
   //public float[] zooms = { 30.0f, 50.0f, 80.0f, 120.0f, 150.0f };
 
   void Start() {
-    transform.position = new Vector3(transform.position.x, transform.position.y, -40.0f);
+    transform.position = new Vector3(transform.position.x, transform.position.y, -zoom_min);
     prev_zoom = transform.position.z;
   }
   void FixedUpdate()

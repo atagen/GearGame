@@ -38,12 +38,7 @@ public class SubmarineController : MonoBehaviour
     {
         var hmove = Input.GetAxis("Horizontal");
         var vmove = Input.GetAxis("Vertical");
-
-        if (Input.GetButton("Jump"))
-        {
-            Instantiate(m, transform.position, Quaternion.identity);
-        }
-        
+       
         _rigidbody.AddTorque(-hmove * Mathf.Sign(vmove) * turn_speed);
 
         Vector2 xy;

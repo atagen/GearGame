@@ -10,7 +10,7 @@ public class MineralHolder : MonoBehaviour
     void Start()
     {
         _minerals = Resources.LoadAll<Sprite>("");
-        Debug.Log(_minerals.Length);
+        //Debug.Log(_minerals.Length);
     }
 
     public static Sprite GetRandom()
