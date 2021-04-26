@@ -1,6 +1,3 @@
-using System.Xml;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +21,7 @@ public class ClawInteractions : MonoBehaviour
     public double particle_freq;
     public double drill_timeout;
     public AstarPath _pathfinding;
+    public TileBase undrillable_tile;
 
     private ClawState _clawstate;
     private Collider2D _hitbox;
@@ -110,7 +108,9 @@ public class ClawInteractions : MonoBehaviour
                 {
                     _drillTimeout = 0.0;
                     Vector3Int tilePos = map.WorldToCell(drillTip);
-                    if (map.GetTile(tilePos) != null)
+                    TileBase tile = map.GetTile(tilePos);
+                    Debug.Log(tile);
+                    if (tile == true && tile != undrillable_tile)
                     {
                         _audioSourceDig.Play();
                         //_pathfinding.Scan();
