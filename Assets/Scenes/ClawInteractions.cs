@@ -109,7 +109,7 @@ public class ClawInteractions : MonoBehaviour
                     _drillTimeout = 0.0;
                     Vector3Int tilePos = map.WorldToCell(drillTip);
                     TileBase tile = map.GetTile(tilePos);
-                    Debug.Log(tile);
+                    
                     if (tile == true && tile != undrillable_tile)
                     {
                         _audioSourceDig.Play();
