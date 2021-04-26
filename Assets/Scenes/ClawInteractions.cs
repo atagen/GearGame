@@ -101,10 +101,15 @@ public class ClawInteractions : MonoBehaviour
             Tilemap map = other.GetComponentInParent<Tilemap>();
             if (map != null)
             {
+                Vector3 drillTip = other.ClosestPoint(_hitbox.bounds.center);
+                //Vector3Int cell = Vector3Int.RoundToInt(drillTip);
+               
+                // new Vector3(_hitbox.bounds.center.x, _hitbox.bounds.max.y, _hitbox.bounds.center.z);
+
                 if (_drillTimeout > drill_timeout)
                 {
                     _drillTimeout = 0.0;
-                    Vector3Int tilePos = map.WorldToCell(_hitbox.bounds.center);
+                    Vector3Int tilePos = map.WorldToCell(drillTip);
                     if (map.GetTile(tilePos) != null)
                     {
                         _audioSourceDig.Play();
@@ -112,12 +117,12 @@ public class ClawInteractions : MonoBehaviour
                         //_pathfinding.ScanAsync();
                         //_pathfinding.UpdateGraphs(_pathfinding.graph);
                         //Pathfinding.AstarPathEditor.MenuScan();
-                        map.GetComponentInParent<DestroyTile>().KillTile(tilePos, _hitbox.bounds.center);
+                        map.GetComponentInParent<DestroyTile>().KillTile(tilePos, drillTip);
                     }
                 } else if (_particleTimeout > particle_freq)
                 {
                     _particleTimeout = 0.0;
-                    map.GetComponentInParent<DestroyTile>().ParticleDrop(_hitbox.bounds.center);
+                    map.GetComponentInParent<DestroyTile>().ParticleDrop(drillTip);
                     _audioSourceDig.Play();
                 }
             }

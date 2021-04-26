@@ -9,89 +9,100 @@ using Debug = UnityEngine.Debug;
 public class TerrainGen : MonoBehaviour
 {
 
-    public Tilemap map;
-    
+    public Tilemap map;    
     public TileBase ruleTile;
     public int min_neighbours;
     public int max_neighbours;
     public float threshold;
+    public float noise_scale;
+    public int iterations;
+    public int seed;
     private bool PerlinBool(Vector3 pos)
     {
-        return (Mathf.PerlinNoise(pos.x, pos.y) > threshold) ? true : false;
+        float noise = Mathf.PerlinNoise(pos.x + seed, pos.y + seed);
+        return (noise > threshold) ? true : false;
     }
     
     Vector3 v3IntToFloat(Vector3Int v, float scale)
     {
         return new Vector3(v.x * scale, v.y * scale, 0);
     }
-    // Start is called before the first frame update
-    void Start()
+
+    List<Vector3Int> analyseTerrain()
     {
 
-        Debug.Log("generating terrain..");
-        int changedTiles = 0;
+        List<Vector3Int> changes = new List<Vector3Int>();
+
+        Vector3Int offset = new Vector3Int(-map.cellBounds.min.x, -map.cellBounds.min.y, seed);
+
         for (int x = map.cellBounds.min.x+1; x < map.cellBounds.max.x-1; x++)
         {
             for (int y = map.cellBounds.min.y+1; y < map.cellBounds.max.y-1; y++)
             {
                 Vector3Int pos = new Vector3Int(x,y,0);
-                /*
-                // fully generative
-                if (PerlinBool( v3IntToFloat(pos, 0.3f)))
+  
+                // only act on tiles that are occupied already
+                if (map.GetTile(pos) == true)
                 {
-                    map.SetTile(pos, ruleTile);
-                } else
-                {
-                    map.SetTile(pos, null);
-                }
-<<<<<<< HEAD
-=======
-                */
-                // none of this below works..
-                
->>>>>>> 3c2fc5cf8388833f97a335e4533781645c25f4ae
-                Tile thisTile = map.GetTile<Tile>(pos);
-                int occupied_neighbours = 0;
-                for (int h = -1; h < 1; h++)
-                {
-                    for (int v = -1; v < 1; v++)
-                    {
-                        Vector3Int npos = pos + new Vector3Int(h,v,0);
-                        if (map.GetTile<Tile>(pos+npos) == true)
-                        if (map.GetTile<Tile>(npos) == true)
-                        {
-                            occupied_neighbours++;
-                        }
-                    }
-                }
-                
-                if (occupied_neighbours > min_neighbours && occupied_neighbours < max_neighbours)
-                {
+                    int occupied_neighbours = 0;
 
-                    for (int h = -1; h < 1; h++)
+                    for (int h = -1; h < 2; h++)
                     {
-                        for (int v = -1; v < 1; v++)
+                        for (int v = -1; v < 2; v++)
                         {
                             Vector3Int npos = pos + new Vector3Int(h,v,0);
-                            if ( PerlinBool( v3IntToFloat(npos, 0.3f)) )
+
+                            if (!(h == 0 && v == 0) && map.GetTile(npos) == true)
                             {
-                                map.SetTile(npos, ruleTile);
-                            } else
-                            {
-                                map.SetTile(npos, null);
+                                occupied_neighbours++;
                             }
-                            changedTiles++;
                         }
                     }
-                    
-                }
-<<<<<<< HEAD
-=======
+
+
+                    if (occupied_neighbours > min_neighbours && occupied_neighbours < max_neighbours)
+                    {
+
+                        for (int h = -1; h < 2; h++)
+                        {
+                            for (int v = -1; v < 2; v++)
+                            {
+                                Vector3Int npos = pos + new Vector3Int(h,v,0);
+                                if ( PerlinBool( v3IntToFloat(npos+offset, noise_scale)) )
+                                    changes.Add(npos);
+                            }
+                        }
+                        
+                    }
+
+                } // if tile exists
                 
->>>>>>> 3c2fc5cf8388833f97a335e4533781645c25f4ae
-            }
+            } // y
+        } // x
+
+        return changes;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        Debug.Log("generating terrain..");
+
+        for (int it = 0; it < iterations; it++)
+        {
+            Debug.Log("performing terrain pass " + it + " ..");
+            // analyse terrain and list required changes
+            List<Vector3Int> changes = analyseTerrain();
+            
+            // run through required changes and make them
+            changes.ForEach(delegate(Vector3Int v)
+            {
+                map.SetTile(v, ruleTile);
+            });
+
+            Debug.Log("changed " + changes.Count + " tiles"!);
         }
-        Debug.Log("attempted to change " + changedTiles + " tiles");
     }
 
     // Update is called once per frame
