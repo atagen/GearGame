@@ -93,7 +93,10 @@ public class TerrainGen : MonoBehaviour
 
                 //gem placement
                 if (occupied_neighbours > gem_neighbours && Random.Range(0f, 1f) < gem_chance)
+                {
                     Instantiate(gem, map.CellToWorld(pos), Quaternion.Euler(0,0,Random.Range(0,360)));
+                    gemsSpawned++;
+                }
 
 
             } // y

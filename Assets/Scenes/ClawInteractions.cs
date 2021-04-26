@@ -134,6 +134,7 @@ public class ClawInteractions : MonoBehaviour
                 _audioSourceDig.Play();
                 inventory.mineral_count += min.getValue();
                 // particle system will play then destroy object
+                other.GetComponent<BoxCollider2D>().enabled = false;
                 other.GetComponent<ParticleSystem>().Play();
                 other.GetComponent<SpriteRenderer>().enabled = false;
                 // in the meantime, destroy the mineral so we can't double-mine it
