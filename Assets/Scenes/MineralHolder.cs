@@ -13,8 +13,10 @@ public class MineralHolder : MonoBehaviour
         //Debug.Log(_minerals.Length);
     }
 
-    public static Sprite GetRandom()
+    public static Sprite GetRandom(int tier)
     {
-        return _minerals[Random.Range(0, _minerals.Length)];
+        int max = _minerals.Length/(tier+1);
+        int min = _minerals.Length/(tier+2);
+        return _minerals[Random.Range(min, max)];
     }
 }
