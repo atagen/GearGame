@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Data;
@@ -16,7 +17,8 @@ public class TerrainGen : MonoBehaviour
     public float threshold;
     public float noise_scale;
     public int iterations;
-    public int seed;
+    public bool exclusive;
+    private int seed;
     private bool PerlinBool(Vector3 pos)
     {
         float noise = Mathf.PerlinNoise(pos.x + seed, pos.y + seed);
@@ -26,6 +28,13 @@ public class TerrainGen : MonoBehaviour
     Vector3 v3IntToFloat(Vector3Int v, float scale)
     {
         return new Vector3(v.x * scale, v.y * scale, 0);
+    }
+
+    bool checkLimits(int occupied, bool exclusive = false)
+    {
+        return (occupied > min_neighbours && occupied < max_neighbours)
+                || 
+                (exclusive && (occupied < min_neighbours || occupied > max_neighbours));
     }
 
     List<Vector3Int> analyseTerrain()
@@ -41,8 +50,10 @@ public class TerrainGen : MonoBehaviour
             {
                 Vector3Int pos = new Vector3Int(x,y,0);
   
-                // only act on tiles that are occupied already
-                if (map.GetTile(pos) == true)
+                // only act on tiles that are occupied with our intended target already
+                if (!exclusive && map.GetTile(pos) == ruleTile
+                    ||
+                    exclusive )
                 {
                     int occupied_neighbours = 0;
 
@@ -60,9 +71,8 @@ public class TerrainGen : MonoBehaviour
                     }
 
 
-                    if (occupied_neighbours > min_neighbours && occupied_neighbours < max_neighbours)
+                    if (checkLimits(occupied_neighbours))
                     {
-
                         for (int h = -1; h < 2; h++)
                         {
                             for (int v = -1; v < 2; v++)
@@ -86,7 +96,7 @@ public class TerrainGen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        seed = (int)UnityEngine.Random.Range(0, 65535);
         Debug.Log("generating terrain..");
 
         for (int it = 0; it < iterations; it++)

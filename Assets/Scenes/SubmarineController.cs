@@ -22,6 +22,11 @@ public class SubmarineController : MonoBehaviour
 
     public Mineral m;
 
+    public Vector2 getSpeedInfo()
+    {
+        return new Vector2(_rigidbody.velocity.magnitude, max_speed);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
